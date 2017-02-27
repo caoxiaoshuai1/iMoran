@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" href="../css/normalize.css">
+</head>
+<body>
+<style>
+    #runbo{
+        width:1000px;
+        margin:0 auto;
+        overflow: hidden;
+    }
+    ul{
+        margin:0;
+        padding:0;
+        overflow: hidden;
+        height:188px;
+        width:2000px;
+        font-size:0;
+        position:relative;
+    }
+    ul li{
+        font-size:0;
+        width:200px;
+        display:inline-block;
+        position:relative;
+    }
+
+    ul li span{
+        position:absolute;
+        width:30px;
+        height:30px;
+        background: #ffffff;
+        bottom:0;
+        left:85px;
+        color:#000000;
+        font-size:32px;
+        text-align: center;
+    }
+
+    ul li img{
+        width:100%;
+    }
+    .buttonHolder{
+        width:800px;
+        text-align:center;
+        margin:0 auto;
+    }
+    button{
+        width:100px;
+        height:30px;
+        background-color: silver;
+        color:#ffffff;
+    }
+</style>
+<div id="runbo">
+    <ul id="holder">
+        <li><img src="../image/pro_home.png" title="1"><span>1</span></li>
+        <li><img src="../image/pro_home.png" title="2"><span>2</span></li>
+        <li><img src="../image/pro_home.png" title="3"><span>3</span></li>
+        <li><img src="../image/pro_home.png" title="4"><span>4</span></li>
+        <li><img src="../image/pro_home.png" title="5"><span>5</span></li>
+        <li><img src="../image/pro_home.png" title="6"><span>6</span></li>
+        <!--<li><img src="../image/pro_home.png" title="7"><span>7</span></li>-->
+    </ul>
+</div>
+<div class="buttonHolder">
+    <button id="pre">上一个</button>
+    <button id="next">下一个</button>
+</div>
+
+
+
+<script src="../js/jquery-1.8.3.min.js"></script>
+<script>
+
+    var settime;
+    $("#runbo ul").hover(function () {
+        clearInterval(settime);
+    }, function () {
+        slide();
+    }).trigger("mouseleave");       //trigger()方法的作用是触发被选元素的制定事件类型
+
+    $('#pre').click(function(){
+        clearInterval(settime);
+            var $first = $("#runbo ul:first");     //选取div下的第一个ul 而不是li
+            var height = $first.find("li:first").width();      //获取第一个li的高度，为ul向上移动做准备；
+            $first.animate({ "left": height + "px" }, 600, function () {
+                $first.css({ left: 0 }).prepend($first.find("li:last")) //设置上边距为零，为了下一次移动做准备
+            });
+        slide();
+    })
+
+    $('#next').click(function(){
+        clearInterval(settime);
+        var $first = $("#runbo ul:first");     //选取div下的第一个ul 而不是li；
+        var height = $first.find("li:first").width();      //获取第一个li的高度，为ul向上移动做准备；
+        $first.animate({ "left": -height + "px" }, 600, function () {
+            $first.css({ left: 0 }).find("li:first").appendTo($first); //设置上边距为零，为了下一次移动做准备
+        });
+        slide();
+    })
+    function slide(){
+        settime = setInterval(function () {
+            var $first = $("#runbo ul:first");     //选取div下的第一个ul 而不是li；
+            var height = $first.find("li:first").width();      //获取第一个li的高度，为ul向上移动做准备；
+            $first.animate({ "left": -height + "px" }, 600, function () {
+                $first.css({ left: 0 }).find("li:first").appendTo($first); //设置上边距为零，为了下一次移动做准备
+            });
+        }, 2000);
+    }
+</script>
+</body>
+</html>
